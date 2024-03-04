@@ -7,10 +7,11 @@ using UnityEngine.PlayerLoop;
 public class Movement : MonoBehaviour
 {
     public GameObject boat;
-    private BoatAvailability ba;
+    private BoatAvailability _boatAvailability;
     public float moveSpeed = 5f;
     public void MoveToBoat()
     {
+        Debug.Log("Entered MoveToBoat().");
         if (CheckBoatAvailability())
         {
             Debug.Log("Moving to boat: " + gameObject.name);
@@ -19,7 +20,7 @@ public class Movement : MonoBehaviour
             transform.position = target;
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.AddForce(new Vector2(0f, 50f * moveSpeed));
-            ba.ChangeAvailability(gameObject);
+            _boatAvailability.ChangeAvailability(gameObject);
         }
         else
         {
@@ -30,7 +31,7 @@ public class Movement : MonoBehaviour
 
     public bool CheckBoatAvailability()
     {
-        return ba.GetState();
+        return _boatAvailability.GetState();
     }
 
     public void MoveBoat()
@@ -48,28 +49,44 @@ public class Movement : MonoBehaviour
     public void MoveOffBoat()
     {
         Debug.Log("Entered MoveOffBoat().");
-        if (ba.currentObjectName == gameObject.name)
+        if (_boatAvailability.currentObjectName == gameObject.name)
         {
-            Vector3 target = new Vector3(0f,0f,-4f);
+            GameObject posBank = GameObject.Find("PositionBank");
+            PositionBank positionBank = posBank.GetComponent<PositionBank>();
+            Vector3 target = positionBank.GetPosition(gameObject.name);
             if (boat.transform.position.x < 0)
             {
-                target.x = -7.47f;
-            }
-            else
-            {
-                target.x = 4.8f;
+                target.x -= 14.5f;
             }
             transform.position = target;
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.AddForce(new Vector2(0f, 50f * moveSpeed));
-            ba.ChangeAvailability(null);
+            _boatAvailability.ChangeAvailability(null);
             Debug.Log("Changed availability.");
+            
+            GameObject validator = GameObject.Find("validator");
+            Validator val = validator.GetComponent<Validator>();
+            if (val.CheckValidity())
+            {
+                val.moveCount++;
+                Debug.Log("Move count: " + val.moveCount);
+            }
+            else
+            {
+                val.GameOver = -1;
+                Debug.Log("Game over.");
+            }
+               
+
         }
     }
+    
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        ba = BoatAvailability.Instance();
+        _boatAvailability = BoatAvailability.Instance();
     }
     
 

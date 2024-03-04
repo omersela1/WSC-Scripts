@@ -13,6 +13,7 @@ public class MouseClick : MonoBehaviour
 
     private void HandleObjectClick()
     {
+            Debug.Log("Handling object click.");
             movement.MoveToBoat();
     }
     // Start is called before the first frame update
