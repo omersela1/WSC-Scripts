@@ -9,6 +9,7 @@ public class UIHandler : MonoBehaviour
     
     public void StartGameClick()
     {
+        
         _clickEnabler.enabler = true;
         uiLayer.SetActive(false);
         PositionBank pb = GameObject.Find("PositionBank").GetComponent<PositionBank>();
