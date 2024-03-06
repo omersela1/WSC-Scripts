@@ -37,6 +37,18 @@ public class PositionBank : MonoBehaviour
         return Vector3.zero;
     }
 
+    public void Reinitialize()
+    {
+        GameObject sheep = GameObject.Find("sheep");
+        sheep.transform.position = sheepPos;
+        GameObject wolf = GameObject.Find("wolf");
+        wolf.transform.position = wolfPos;
+        GameObject cabbage = GameObject.Find("cabbage");
+        cabbage.transform.position = cabPos;
+        GameObject farmer = GameObject.Find("farmer");
+        farmer.transform.position = farmPos;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

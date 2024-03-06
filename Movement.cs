@@ -36,12 +36,24 @@ public class Movement : MonoBehaviour
 
     public void MoveBoat()
     {
-        Rigidbody2D rb = boat.GetComponent<Rigidbody2D>();
-        if (boat.transform.position.x < -0.5f && boat.transform.position.x > -1f)
-            rb.AddForce(new Vector3(20f * moveSpeed,0f,0f));
+        GameObject validator = GameObject.Find("validator");
+        Validator val = validator.GetComponent<Validator>();
+        if (val.CheckValidity())
+        {
+            Rigidbody2D rb = boat.GetComponent<Rigidbody2D>();
+            if (boat.transform.position.x < -0.5f && boat.transform.position.x > -1f)
+                rb.AddForce(new Vector3(20f * moveSpeed, 0f, 0f));
+            else
+            {
+                rb.AddForce(new Vector3(-20f * moveSpeed, 0f, 0f));
+            }
+        }
         else
         {
-            rb.AddForce(new Vector3(-20f * moveSpeed,0f,0f));
+            if (CheckBoatAvailability())
+            {
+                GameLost();
+            }
         }
     }
 
@@ -73,14 +85,26 @@ public class Movement : MonoBehaviour
             }
             else
             {
-                val.GameOver = -1;
-                Debug.Log("Game over.");
+                GameLost();
+                
             }
-               
-
+            
         }
     }
-    
+
+    public void GameLost()
+    {
+        GameObject uiHandler = GameObject.Find("UIObjectHandler");
+        UIObjectHandler bank = uiHandler.GetComponent<UIObjectHandler>();
+        bank.gameOverUI.SetActive(true);
+        GameObject validator = GameObject.Find("validator");
+        Validator val = validator.GetComponent<Validator>();
+        val.GameOver = -1;
+        GameObject ce = GameObject.Find("ClickEnabler");
+        ClickEnabler e = ce.GetComponent<ClickEnabler>();
+        e.enabler = false;
+        Debug.Log("Game over.");
+    }
     
     
     // Start is called before the first frame update
