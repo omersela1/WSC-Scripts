@@ -5,22 +5,44 @@ using UnityEngine;
 public class UIHandler : MonoBehaviour
 {
     public GameObject uiLayer;
-    private ClickEnabler _clickEnabler;
+    public ClickEnabler _clickEnabler;
+    public UIObjectHandler UIObjHandler;
     
     public void StartGameClick()
     {
         
         _clickEnabler.enabler = true;
-        uiLayer.SetActive(false);
+        GameTimer timer = UIObjHandler.timer.GetComponent<GameTimer>();
+        if (timer == null)
+        {
+            Debug.Log("Timer object not found.");
+        }
+        else
+        {
+            timer.elapsedTime = 0.0f;
+            timer.active = 1;
+        }
+
         PositionBank pb = GameObject.Find("PositionBank").GetComponent<PositionBank>();
         pb.Reinitialize();
+        uiLayer.SetActive(false);
 
+    }
+
+    public void ShowHighscoresClick()
+    {
+        
+    }
+
+    public void MainMenuClick()
+    {
+        
     }
 
     public void QuitGameClick()
     {
-            Debug.Log("Quitting game...");
-            Application.Quit();
+        Debug.Log("Quitting game...");
+        Application.Quit();
     }
     // Start is called before the first frame update
     void Start()
@@ -35,3 +57,5 @@ public class UIHandler : MonoBehaviour
         
     }
 }
+
+

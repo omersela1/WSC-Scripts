@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MouseClick : MonoBehaviour
 {
-     public Movement movement;
+    public Movement movement;
     public GameObject boat;
     public int gameOver;
-    private ClickEnabler _clickEnabler;
+    public ClickEnabler _clickEnabler;
 
     private void HandleObjectClick()
     {
