@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 public class UIObjectHandler : MonoBehaviour
 {
@@ -8,6 +9,11 @@ public class UIObjectHandler : MonoBehaviour
     public GameObject gameWinUI;
     public GameObject highscoresUI;
     public GameObject timer;
+    public TextMeshProUGUI Result1;
+    public TextMeshProUGUI Result2;
+    public TextMeshProUGUI Result3;
+    public TextMeshProUGUI Result4;
+    public TextMeshProUGUI Result5;
 
     public void DeactivateAll()
     {
@@ -19,6 +25,7 @@ public class UIObjectHandler : MonoBehaviour
 
     public void ActivateHighscores()
     {
+        DeactivateAll();
         highscoresUI.SetActive(true);
     }
     

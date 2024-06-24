@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -88,8 +89,20 @@ public class HTTPHandler : MonoBehaviour
             return null;
         }
     }
-    
-}
 
+    public async Task<string[]> GetFormattedTopResultsAsync(string url)
+    {
+        var results = await GetTopResultsAsync(url);
+
+        if (results == null)
+        {
+            return null;
+        }
+
+        return results.Select(result => 
+            $"Player: {result.player} | Time: {result.time} | Steps: {result.steps}"
+        ).ToArray();
+    }
+}
 
     
